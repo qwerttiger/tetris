@@ -11,7 +11,6 @@ screen.blit(play,((350-play.get_width()/2,600-play.get_height()/2))) #draw the p
 keep_going=True #set keep going to True
 def load(names):
   for name in names:
-    print(name)
     name_=f"C:/Users/Rainbow/Documents/GitHub/tetris/pictures/{name}.png"
     exec(f"global {name}")
     exec(f"{name}=pygame.image.load('{name_}')",globals())
@@ -19,16 +18,16 @@ listofblocks=[]
 for root,_,files in os.walk("C:/Users/Rainbow/Documents/GitHub/tetris/pictures"):
   for file in files:
     if file not in ["play.png","tetrislogo.png"]:
-      print(root,file[:-4])
       listofblocks+=[file[:-4]]
 load(listofblocks)
 while keep_going: #while you are keep going
   for event in pygame.event.get(): #for every event
     if event.type==pygame.QUIT: #if the type is quit
       pygame.quit() #quit
-      sys.exit() #and exit
     if event.type==pygame.MOUSEBUTTONDOWN: #if you click
       pos=pygame.mouse.get_pos() #set pos to be the position of the mouse
       if pos[0]>=350-play.get_width()/2 and pos[0]<=350+play.get_width()/2 and pos[1]>=600-play.get_height()/2 and pos[1]<=600+play.get_height()/2: #if you click on the button
         keep_going=False #stop going
   pygame.display.flip() #update screen
+screen.fill((50,50,50))
+pygame.display.flip()
