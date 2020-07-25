@@ -96,7 +96,7 @@ while keep_going:
   screen.blit(nextsurface,(550,50))
   screen.blit(matrixscreen,(300,250))
   blockmatrix=getmatrix(currentblock)
-  xpos=random.randint(0,currentblock[0].get_width()/10-1)*10
+  xpos=random.randint(0,11-currentblock[0].get_width()/10)*10
   ypos=0
   yes=True
   while yes:
@@ -112,4 +112,3 @@ while keep_going:
           yes=True
     for event in pygame.event.get():
       pass
-  keep_going=False
