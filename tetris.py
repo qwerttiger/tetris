@@ -1,6 +1,6 @@
 import os #import os, a tool for finding files and not letting python write support prompt
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT']="hide" #hide support prompt
-import pygame,sys,random,threading #import pygame and sys, a tool for exiting, and random, a tool for random choices, and threading, a tool for setting non-blocking timers
+import pygame,sys,random #import pygame and sys, a tool for exiting, and random, a tool for random choices
 pygame.init() #initiate pygame
 screen=pygame.display.set_mode((700,700)) #setup display
 pygame.display.set_caption("Tetris") #set caption
@@ -112,3 +112,4 @@ while keep_going:
           yes+=1
     for event in pygame.event.get():
       pass
+  
