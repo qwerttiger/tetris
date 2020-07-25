@@ -28,14 +28,17 @@ class matrix:
     self.y=len(self.matrix)
   def getat(self,xpos,ypos):
     try:
-      return self.matrix[ypos][xpos]
+      if not xpos==0 and not ypos==0:
+        return self.matrix[ypos][xpos]
+      else:
+        return matrix("")
     except:
       return matrix("")
   def collide(self,other,diff):
     for ypos1 in range(20-other.y):
       for xpos1 in range(10-other.x):
-        xpos2=xpos1+diff[0]
-        ypos2=ypos1+diff[1]
+        xpos2=xpos1-diff[0]
+        ypos2=ypos1-diff[1]
         if self.getat(xpos1,ypos1)==other.getat(xpos2,ypos2):
           return True
     return False
@@ -95,11 +98,18 @@ while keep_going:
   blockmatrix=getmatrix(currentblock)
   xpos=random.randint(0,currentblock[0].get_width()/10-1)*10
   ypos=0
-  while True:
+  yes=True
+  while yes:
     matrixscreen.fill((255,255,255))
     matrixscreen.blit(currentblock[0],(xpos,round(ypos/10)*10))
     screen.blit(matrixscreen,(300,250))
-    ypos+=0.01
+    ypos+=0.15
     pygame.display.flip()
+    yes=False
+    for x in [305,315,325,335,345,355,365,375,385,395]:
+      for y in [255,265,275,285,295,305,315,325,335,345,355,365,375,385,395,405,415,425,435,445]:
+        if not screen.get_at((x,y))==(255,255,255,255):
+          yes=True
     for event in pygame.event.get():
       pass
+  keep_going=False
