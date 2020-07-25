@@ -96,19 +96,19 @@ while keep_going:
   screen.blit(nextsurface,(550,50))
   screen.blit(matrixscreen,(300,250))
   blockmatrix=getmatrix(currentblock)
-  xpos=random.randint(0,11-currentblock[0].get_width()/10)*10
+  xpos=random.randint(0,10-currentblock[0].get_width()/10)*10
   ypos=0
-  yes=True
-  while yes:
+  yes=4
+  while yes==4:
     matrixscreen.fill((255,255,255))
     matrixscreen.blit(currentblock[0],(xpos,round(ypos/10)*10))
     screen.blit(matrixscreen,(300,250))
-    ypos+=0.15
+    ypos+=0.05
     pygame.display.flip()
-    yes=False
-    for x in [305,315,325,335,345,355,365,375,385,395]:
-      for y in [255,265,275,285,295,305,315,325,335,345,355,365,375,385,395,405,415,425,435,445]:
+    yes=0
+    for x in range(305,405,10):
+      for y in range(255,455,10):
         if not screen.get_at((x,y))==(255,255,255,255):
-          yes=True
+          yes+=1
     for event in pygame.event.get():
       pass
