@@ -28,22 +28,35 @@ class matrix:
     self.y=len(self.matrix)
   def getat(self,xpos,ypos):
     try:
-      if not xpos==0 and not ypos==0:
+      if xpos>=0 and ypos>=0:
         return self.matrix[ypos][xpos]
       else:
         return matrix("")
     except:
       return matrix("")
+  def setat(self,xpos,ypos,yes=1):
+    try:
+      if xpos>=0 and ypos>=0:
+        self.matrix[ypos][xpos]=yes
+    except:
+      pass
   def collide(self,other,diff):
-    for ypos1 in range(20-other.y):
-      for xpos1 in range(10-other.x):
+    for ypos1 in range(20):
+      for xpos1 in range(10):
         xpos2=xpos1-diff[0]
         ypos2=ypos1-diff[1]
-        if self.getat(xpos1,ypos1)==other.getat(xpos2,ypos2):
+        if self.getat(xpos1,ypos1)==1 and other.getat(xpos2,ypos2)==1:
           return True
     return False
   def clear(self):
     self.matrix=[[0]*len(self.matrix[0])]*len(self.matrix)
+  def add(self,other,diff):
+    for ypos in range(20):
+      for xpos in range(10):
+        if other.getat(xpos-diff[0],ypos-diff[1])==1:
+          self.setat(xpos,ypos,1)
+  
+        
 def draw(blocks):
   a=blocks[0][0]
   b=blocks[1][0]
@@ -70,7 +83,7 @@ while keep_going: #while you are keep going
   for event in pygame.event.get(): #for every event
     if event.type==pygame.QUIT: #if the type is quit
       pygame.quit() #quit
-      sys.exit()
+      sys.exit() #exit
     if event.type==pygame.MOUSEBUTTONDOWN: #if you click
       pos=pygame.mouse.get_pos() #set pos to be the position of the mouse
       if pos[0]>=350-play.get_width()/2 and pos[0]<=350+play.get_width()/2 and pos[1]>=600-play.get_height()/2 and pos[1]<=600+play.get_height()/2: #if you click on the button
@@ -85,11 +98,12 @@ currentblock=randomblock()
 nextsurface=pygame.Surface((100,400))
 matrixscreen=pygame.Surface((100,200))
 alreadymatrix=pygame.Surface((100,200))
+alreadymatrix.fill((255,255,255))
+alreadymatrix.set_colorkey((255,255,255))
 while keep_going:
   screen.fill((50,50,50))
   nextsurface.fill((100,100,100))
   matrixscreen.fill((255,255,255))
-  alreadymatrix.fill((255,255,255))
   currentblock=blocks.pop(0)
   blocks+=[randomblock()]
   draw(blocks)
@@ -101,15 +115,28 @@ while keep_going:
   yes=4
   while yes==4:
     matrixscreen.fill((255,255,255))
-    matrixscreen.blit(currentblock[0],(xpos,round(ypos/10)*10))
+    matrixscreen.blit(currentblock[0],(round(xpos/10)*10,round(ypos/10)*10))
     screen.blit(matrixscreen,(300,250))
-    ypos+=0.05
+    screen.blit(alreadymatrix,(300,250))
+    ypos+=0.1
+    pressed=pygame.key.get_pressed()
+    if pressed[pygame.K_LEFT] and xpos>=0:
+      xpos-=0.1
+    if pressed[pygame.K_RIGHT] and xpos<=100-currentblock[0].get_width():
+      xpos+=0.1
+    
+    for event in pygame.event.get():
+      if event.type==pygame.QUIT:
+        pygame.quit()
+        sys.exit()
     pygame.display.flip()
     yes=0
-    for x in range(305,405,10):
-      for y in range(255,455,10):
-        if not screen.get_at((x,y))==(255,255,255,255):
+    for x in range(5,105,10):
+      for y in range(5,205,10):
+        if not matrixscreen.get_at((x,y))==(255,255,255,255):
           yes+=1
-    for event in pygame.event.get():
-      pass
+    if screenmatrix.collide(blockmatrix,(round(xpos/10),round((ypos-1)/10))):
+      break
   
+  screenmatrix.add(blockmatrix,(round(xpos/10),round((ypos-1)/10)))
+  alreadymatrix.blit(currentblock[0],(round(xpos/10)*10,round(ypos/10)*10-10))
