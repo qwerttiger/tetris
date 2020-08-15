@@ -136,6 +136,7 @@ while keep_going:
         if not matrixscreen.get_at((x,y))==(255,255,255,255):
           yes+=1
     if screenmatrix.collide(blockmatrix,(round(xpos/10),round((ypos-1)/10))):
+      ypos-=0.1
       break
   
   screenmatrix.add(blockmatrix,(round(xpos/10),round((ypos-1)/10)))
